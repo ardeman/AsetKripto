@@ -37,6 +37,6 @@
     "react-test-renderer": "~16.13.1"
   },
   "private": true,
-  "name": "AsetKripto",
+  "name": "asetkripto",
   "version": "1.0.0"
 }
