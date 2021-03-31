@@ -1,3 +1,3 @@
-import InputData from './InputData'
+import InputData from "./InputData";
 
-export { InputData }
+export { InputData };
