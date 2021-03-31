@@ -10,7 +10,6 @@ const Router = () => {
             <Stack.Screen
                 name="Home"
                 component={Home}
-                options={{ title: 'Portofolio' }}
             />
             <Stack.Screen
                 name="AddPortfolio"
