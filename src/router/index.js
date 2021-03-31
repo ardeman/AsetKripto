@@ -1,7 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import Home from '../pages/Home'
-import AddPortfolio from '../pages/AddPortfolio'
+import { Home, AddPortfolio } from '../pages'
 
 const Stack = createStackNavigator();
 
@@ -11,7 +10,7 @@ const Router = () => {
             <Stack.Screen
                 name="Home"
                 component={Home}
-                options={{ title: 'Beranda' }}
+                options={{ title: 'Portofolio' }}
             />
             <Stack.Screen
                 name="AddPortfolio"
