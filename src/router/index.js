@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Home, AddPortfolio } from "../pages";
+import { Home, AddAsset } from "../pages";
 
 const Stack = createStackNavigator();
 
@@ -13,9 +13,9 @@ const Router = () => {
                 options={{ headerShown: false }}
             />
             <Stack.Screen
-                name="AddPortfolio"
-                component={AddPortfolio}
-                options={{ title: "Tambah Portofolio" }}
+                name="AddAsset"
+                component={AddAsset}
+                options={{ title: "Tambah Aset" }}
             />
         </Stack.Navigator>
     );

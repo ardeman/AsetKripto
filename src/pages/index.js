@@ -1,4 +1,4 @@
 import Home from "./Home";
-import AddPortfolio from "./AddPortfolio";
+import AddAsset from "./AddAsset";
 
-export { Home, AddPortfolio };
+export { Home, AddAsset };

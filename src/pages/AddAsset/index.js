@@ -3,13 +3,14 @@ import { Text, StyleSheet, View, TouchableOpacity, Alert } from "react-native";
 import { InputData } from "../../components";
 import Firebase from "../../config/Firebase";
 
-export default class AddPortfolio extends Component {
+export default class AddAsset extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            apiKey: "",
-            apiSecret: "",
+            key: "",
+            secret: "",
+            vendor: "",
         };
     }
 
@@ -20,11 +21,12 @@ export default class AddPortfolio extends Component {
     };
 
     onSubmit = () => {
-        if (this.state.apiKey && this.state.apiSecret) {
+        if (this.state.key && this.state.secret && this.state.vendor) {
             const apiRef = Firebase.database().ref("apis");
             const api = {
-                apiKey: this.state.apiKey,
-                apiSecret: this.state.apiSecret,
+                key: this.state.key,
+                secret: this.state.secret,
+                vendor: this.state.vendor,
             };
 
             apiRef
@@ -37,7 +39,7 @@ export default class AddPortfolio extends Component {
                     console.log("Error : ", error);
                 });
         } else {
-            Alert.alert("Error", "API Key dan API Secret wajib diisi");
+            Alert.alert("Error", "API Key, API Secret dan Vendor wajib diisi");
         }
     };
 
@@ -48,15 +50,22 @@ export default class AddPortfolio extends Component {
                     label="API Key"
                     placeholder="Masukkan API Key"
                     onChangeText={this.onChangeText}
-                    value={this.state.apiKey}
-                    stateName="apiKey"
+                    value={this.state.key}
+                    stateName="key"
                 />
                 <InputData
                     label="API Secret"
                     placeholder="Masukkan API Secret"
                     onChangeText={this.onChangeText}
-                    value={this.state.apiSecret}
-                    stateName="apiSecret"
+                    value={this.state.secret}
+                    stateName="secret"
+                />
+                <InputData
+                    label="Vendor"
+                    placeholder="Masukkan Vendor"
+                    onChangeText={this.onChangeText}
+                    value={this.state.vendor}
+                    stateName="vendor"
                 />
                 <TouchableOpacity
                     style={styles.button}

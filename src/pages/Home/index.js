@@ -2,17 +2,58 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import React, { Component } from "react";
 import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
+import { CardAsset } from "../../components";
+import Firebase from "../../config/Firebase";
 
 export default class Home extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            apis: {},
+            apisKey: [],
+        };
+    }
+
+    componentDidMount() {
+        Firebase.database()
+            .ref("apis")
+            .once("value", (querySnapShot) => {
+                let data = querySnapShot.val() || {};
+                let apiItem = { ...data };
+
+                this.setState({
+                    apis: apiItem,
+                    apisKey: Object.keys(apiItem),
+                });
+            });
+    }
+
     render() {
+        const { apis, apisKey } = this.state;
+
         return (
             <View style={styles.page}>
-                <Text>Halaman Home</Text>
+                <View style={styles.header}>
+                    <Text style={styles.title}>Daftar Aset</Text>
+                    <View style={styles.line} />
+                </View>
+
+                <View style={styles.listApi}>
+                    {apisKey.length > 0 ? (
+                        apisKey.map((key) => (
+                            <CardAsset id={key} key={key} apiItem={apis[key]} />
+                        ))
+                    ) : (
+                        <Text>Daftar Kosong</Text>
+                    )}
+                </View>
+
                 <View style={styles.wrapperButton}>
                     <TouchableOpacity
                         style={styles.btnAdd}
                         onPress={() =>
-                            this.props.navigation.navigate("AddPortfolio")
+                            this.props.navigation.navigate("AddAsset")
                         }
                     >
                         <FontAwesomeIcon
@@ -30,6 +71,22 @@ export default class Home extends Component {
 const styles = StyleSheet.create({
     page: {
         flex: 1,
+    },
+    header: {
+        paddingHorizontal: 30,
+        paddingTop: 30,
+    },
+    title: {
+        fontSize: 20,
+        fontWeight: "bold",
+    },
+    line: {
+        borderWidth: 1,
+        marginTop: 10,
+    },
+    listApi: {
+        paddingHorizontal: 30,
+        marginTop: 20,
     },
     wrapperButton: {
         flex: 1,
