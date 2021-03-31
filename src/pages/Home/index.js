@@ -42,7 +42,7 @@ export default class Home extends Component {
                 <View style={styles.listApi}>
                     {apisKey.length > 0 ? (
                         apisKey.map((key) => (
-                            <CardAsset id={key} key={key} apiItem={apis[key]} />
+                            <CardAsset id={key} key={key} apiItem={apis[key]} {...this.props} />
                         ))
                     ) : (
                         <Text>Daftar Kosong</Text>

@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Home, AddAsset } from "../pages";
+import { Home, AddAsset, DetailAsset } from "../pages";
 
 const Stack = createStackNavigator();
 
@@ -16,6 +16,11 @@ const Router = () => {
                 name="AddAsset"
                 component={AddAsset}
                 options={{ title: "Tambah Aset" }}
+            />
+            <Stack.Screen
+                name="DetailAsset"
+                component={DetailAsset}
+                options={{ title: "Detil Aset" }}
             />
         </Stack.Navigator>
     );
