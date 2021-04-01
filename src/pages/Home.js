@@ -2,8 +2,8 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import React, { Component } from "react";
 import { Text, StyleSheet, View, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
-import { CardAsset } from "../../components";
-import Firebase from "../../config/Firebase";
+import { CardAsset } from "../components";
+import Firebase from "../config/Firebase";
 
 export default class Home extends Component {
     constructor(props) {

@@ -18,9 +18,7 @@ const CardAsset = ({ id, apiItem, navigation, removeData }) => {
                     icon={faEdit}
                     color={"orange"}
                     size={25}
-                    onPress={() =>
-                        navigation.navigate("EditAsset", { id: id })
-                    }
+                    onPress={() => navigation.navigate("EditAsset", { id: id })}
                 />
                 <FontAwesomeIcon
                     icon={faTimes}
@@ -55,6 +53,7 @@ const styles = StyleSheet.create({
     vendor: {
         fontWeight: "bold",
         fontSize: 16,
+        textTransform: "capitalize",
     },
     aset: {
         fontSize: 12,

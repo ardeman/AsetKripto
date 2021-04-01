@@ -6,14 +6,15 @@ import {
     TouchableOpacity,
     ActivityIndicator,
 } from "react-native";
-import { InputData } from "../../components";
-import Firebase from "../../config/Firebase";
+import { InputData } from "../components";
+import Firebase from "../config/Firebase";
 
-export default class Login extends Component {
+export default class Register extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            name: "",
             email: "",
             password: "",
             errorMessage: null,
@@ -29,12 +30,19 @@ export default class Login extends Component {
         });
     };
 
-    handleLogin = () => {
+    handleRegister = () => {
         this.setState({ loading: true });
-        const { email, password } = this.state;
 
         Firebase.auth()
-            .signInWithEmailAndPassword(email, password)
+            .createUserWithEmailAndPassword(
+                this.state.email,
+                this.state.password
+            )
+            .then((userCredentials) => {
+                return userCredentials.user.updateProfile({
+                    displayName: this.state.name,
+                });
+            })
             .finally(() => {
                 this.setState({ loading: false });
             })
@@ -44,7 +52,9 @@ export default class Login extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.greeting}>{`Selamat Datang`}</Text>
+                <Text
+                    style={styles.greeting}
+                >{`Silakan daftar untuk memulai.`}</Text>
 
                 <View style={styles.processing}>
                     {this.state.loading && (
@@ -60,6 +70,14 @@ export default class Login extends Component {
 
                 <View style={styles.form}>
                     <View>
+                        <InputData
+                            label="Nama"
+                            placeholder="Masukkan Nama Lengkap"
+                            onChangeText={this.onChangeText}
+                            value={this.state.name}
+                            stateName="name"
+                        />
+
                         <InputData
                             label="Email"
                             placeholder="Masukkan Alamat Email"
@@ -81,21 +99,21 @@ export default class Login extends Component {
 
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={this.handleLogin}
+                            onPress={this.handleRegister}
                         >
-                            <Text style={styles.buttonText}>Login</Text>
+                            <Text style={styles.buttonText}>Daftar</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
                             style={styles.toRegister}
                             onPress={() =>
-                                this.props.navigation.navigate("Register")
+                                this.props.navigation.navigate("Login")
                             }
                         >
                             <Text style={styles.registerQuestion}>
-                                Belum memiliki akun?{" "}
+                                Sudah terdaftar?{" "}
                                 <Text style={styles.registerLink}>
-                                    Daftar di sini
+                                    Login di sini
                                 </Text>
                                 .
                             </Text>

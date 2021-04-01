@@ -7,10 +7,10 @@ import {
     Alert,
     ActivityIndicator,
 } from "react-native";
-import { InputData } from "../../components";
-import Firebase from "../../config/Firebase";
+import { InputData } from "../components";
+import Firebase from "../config/Firebase";
 
-export default class EditAsset extends Component {
+export default class AddAsset extends Component {
     constructor(props) {
         super(props);
 
@@ -21,21 +21,6 @@ export default class EditAsset extends Component {
             errorMessage: null,
             loading: false,
         };
-    }
-
-    componentDidMount() {
-        Firebase.database()
-            .ref(`apis/${this.props.route.params.id}`)
-            .once("value", (querySnapShot) => {
-                let data = querySnapShot.val() || {};
-                let apiItem = { ...data };
-
-                this.setState({
-                    key: apiItem.key,
-                    secret: apiItem.secret,
-                    vendor: apiItem.vendor,
-                });
-            });
     }
 
     onChangeText = (stateName, value) => {
@@ -49,9 +34,7 @@ export default class EditAsset extends Component {
         if (this.state.key && this.state.secret && this.state.vendor) {
             this.setState({ loading: true });
 
-            const apiRef = Firebase.database().ref(
-                `apis/${this.props.route.params.id}`
-            );
+            const apiRef = Firebase.database().ref("apis");
             const api = {
                 key: this.state.key,
                 secret: this.state.secret,
@@ -59,9 +42,9 @@ export default class EditAsset extends Component {
             };
 
             apiRef
-                .update(api)
+                .push(api)
                 .then(() => {
-                    Alert.alert("Sukses", "Api Terupdate");
+                    Alert.alert("Sukses", "Api Tersimpan");
                     this.props.navigation.replace("Home");
                 })
                 .finally(() => {
