@@ -1,7 +1,7 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import React, { Component } from "react";
-import { Text, StyleSheet, View, TouchableOpacity, Alert } from "react-native";
+import { Text, StyleSheet, View, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
 import { CardAsset } from "../../components";
 import Firebase from "../../config/Firebase";
 
@@ -12,14 +12,26 @@ export default class Home extends Component {
         this.state = {
             apis: {},
             apisKey: [],
+            email: "",
+            displayName: "",
+            loading: false,
         };
     }
 
     componentDidMount() {
         this.retrieveData();
+
+        const { email, displayName } = Firebase.auth().currentUser;
+        this.setState({ email, displayName });
     }
 
+    signOutUser = () => {
+        Firebase.auth().signOut();
+    };
+
     retrieveData = () => {
+        this.setState({ loading: true });
+
         Firebase.database()
             .ref("apis")
             .once("value", (querySnapShot) => {
@@ -30,6 +42,9 @@ export default class Home extends Component {
                     apis: apiItem,
                     apisKey: Object.keys(apiItem),
                 });
+            })
+            .finally(() => {
+                this.setState({ loading: false });
             });
     };
 
@@ -57,11 +72,27 @@ export default class Home extends Component {
         return (
             <View style={styles.page}>
                 <View style={styles.header}>
+                    <View style={styles.authUser}>
+                        <Text style={styles.currentUser}>
+                            Hi, {this.state.displayName}.
+                        </Text>
+                        <TouchableOpacity
+                            style={styles.logout}
+                            onPress={this.signOutUser}
+                        >
+                            <Text style={styles.textLogout}>Logout</Text>
+                        </TouchableOpacity>
+                    </View>
+
                     <Text style={styles.title}>Daftar Aset</Text>
                     <View style={styles.line} />
                 </View>
 
                 <View style={styles.listApi}>
+                    {this.state.loading && (
+                        <ActivityIndicator size="large" color="gray" />
+                    )}
+
                     {apisKey.length > 0 ? (
                         apisKey.map((key) => (
                             <CardAsset
@@ -136,5 +167,14 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
 
         elevation: 5,
+    },
+    authUser: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+    },
+    currentUser: {},
+    logout: {},
+    textLogout: {
+        textTransform: "uppercase",
     },
 });

@@ -1,12 +1,35 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Home, AddAsset, DetailAsset, EditAsset } from "../pages";
+import {
+    Home,
+    AddAsset,
+    DetailAsset,
+    EditAsset,
+    Loading,
+    Login,
+    Register,
+} from "../pages";
 
 const Stack = createStackNavigator();
 
 const Router = () => {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName="Loading">
+            <Stack.Screen
+                name="Loading"
+                component={Loading}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="Login"
+                component={Login}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="Register"
+                component={Register}
+                options={{ headerShown: false }}
+            />
             <Stack.Screen
                 name="Home"
                 component={Home}

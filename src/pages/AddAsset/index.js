@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { Text, StyleSheet, View, TouchableOpacity, Alert } from "react-native";
+import {
+    Text,
+    StyleSheet,
+    View,
+    TouchableOpacity,
+    Alert,
+    ActivityIndicator,
+} from "react-native";
 import { InputData } from "../../components";
 import Firebase from "../../config/Firebase";
 
@@ -11,17 +18,22 @@ export default class AddAsset extends Component {
             key: "",
             secret: "",
             vendor: "",
+            errorMessage: null,
+            loading: false,
         };
     }
 
     onChangeText = (stateName, value) => {
         this.setState({
+            errorMessage: null,
             [stateName]: value,
         });
     };
 
     onSubmit = () => {
         if (this.state.key && this.state.secret && this.state.vendor) {
+            this.setState({ loading: true });
+
             const apiRef = Firebase.database().ref("apis");
             const api = {
                 key: this.state.key,
@@ -31,21 +43,38 @@ export default class AddAsset extends Component {
 
             apiRef
                 .push(api)
-                .then((data) => {
+                .then(() => {
                     Alert.alert("Sukses", "Api Tersimpan");
                     this.props.navigation.replace("Home");
                 })
+                .finally(() => {
+                    this.setState({ loading: false });
+                })
                 .catch((error) => {
-                    console.log("Error : ", error);
+                    this.setState({ errorMessage: error.message });
                 });
         } else {
-            Alert.alert("Error", "API Key, API Secret dan Vendor wajib diisi");
+            this.setState({
+                errorMessage: "API Key, API Secret dan Vendor wajib diisi",
+            });
         }
     };
 
     render() {
         return (
             <View style={styles.pages}>
+                <View style={styles.processing}>
+                    {this.state.loading && (
+                        <ActivityIndicator size="large" color="gray" />
+                    )}
+
+                    {this.state.errorMessage && (
+                        <Text style={styles.error}>
+                            {this.state.errorMessage}
+                        </Text>
+                    )}
+                </View>
+
                 <InputData
                     label="API Key"
                     placeholder="Masukkan API Key"
@@ -84,15 +113,29 @@ const styles = StyleSheet.create({
         padding: 30,
     },
     button: {
-        backgroundColor: "black",
-        padding: 10,
-        borderRadius: 5,
         marginTop: 10,
+        backgroundColor: "black",
+        borderRadius: 5,
+        height: 52,
+        alignItems: "center",
+        justifyContent: "center",
     },
     buttonText: {
         color: "white",
         fontWeight: "bold",
         textAlign: "center",
         fontSize: 16,
+        textTransform: "uppercase",
+    },
+    processing: {
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    error: {
+        color: "darkred",
+        fontSize: 13,
+        fontWeight: "bold",
+        textAlign: "center",
+        marginBottom: 20,
     },
 });

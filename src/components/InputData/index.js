@@ -8,16 +8,20 @@ const InputData = ({
     onChangeText,
     value,
     stateName,
+    autoCapitalize,
+    secureTextEntry,
 }) => {
     return (
         <>
-            <Text style={styles.label}>{label} :</Text>
+            <Text style={styles.label}>{label}</Text>
             <TextInput
                 placeholder={placeholder}
                 style={styles.textInput}
                 keyboardType={keyboardType}
                 onChangeText={(text) => onChangeText(stateName, text)}
                 value={value}
+                autoCapitalize={autoCapitalize || "sentences"}
+                secureTextEntry={secureTextEntry}
             />
         </>
     );
@@ -27,14 +31,17 @@ export default InputData;
 
 const styles = StyleSheet.create({
     label: {
-        fontSize: 16,
+        fontSize: 10,
         marginBottom: 5,
+        color: "gray",
+        textTransform: "uppercase",
     },
     textInput: {
-        borderWidth: 1,
-        borderColor: "gray",
-        borderRadius: 5,
-        padding: 10,
-        marginBottom: 20,
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderBottomColor: "gray",
+        height: 46,
+        fontSize: 15,
+        marginBottom: 30,
+        paddingHorizontal: 0,
     },
 });

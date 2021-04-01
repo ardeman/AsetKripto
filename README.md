@@ -44,7 +44,10 @@ Perangkat lunak ini menggunakan paket open source berikut:
 - [React Native](https://reactnative.dev)
 - [React Navigation](https://reactnavigation.org)
 - [Firebase](https://firebase.google.com/)
-- Build based on tutorial from [Wahidev Academy](https://www.youtube.com/c/WahidevAcademy/)
+
+Terima kasih kepada
+- [Wahidev Academy](https://www.youtube.com/channel/UCXsAaDHG8E4PN3rIHGaZ4XQ)
+- [DesignIntoCode](https://www.youtube.com/channel/UCPZlE8KsMkumnjEMOcJDxuQ)
 
 ## Lisensi
 
