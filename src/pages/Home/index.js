@@ -73,7 +73,7 @@ export default class Home extends Component {
                             />
                         ))
                     ) : (
-                        <Text>Daftar Kosong</Text>
+                        <Text>Tidak tersedia</Text>
                     )}
                 </View>
 
