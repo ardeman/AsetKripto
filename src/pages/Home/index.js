@@ -1,7 +1,7 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import React, { Component } from "react";
-import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
+import { Text, StyleSheet, View, TouchableOpacity, Alert } from "react-native";
 import { CardAsset } from "../../components";
 import Firebase from "../../config/Firebase";
 
@@ -16,6 +16,10 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
+        this.retrieveData();
+    }
+
+    retrieveData = () => {
         Firebase.database()
             .ref("apis")
             .once("value", (querySnapShot) => {
@@ -27,7 +31,25 @@ export default class Home extends Component {
                     apisKey: Object.keys(apiItem),
                 });
             });
-    }
+    };
+
+    removeData = (id) => {
+        Alert.alert("Info", "Anda yakin akan menghapus aset ini?", [
+            {
+                text: "Cancel",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel",
+            },
+            {
+                text: "OK",
+                onPress: () => {
+                    Firebase.database().ref(`apis/${id}`).remove();
+                    this.retrieveData();
+                    Alert.alert("Hapus", "Sukses menghapus data");
+                },
+            },
+        ]);
+    };
 
     render() {
         const { apis, apisKey } = this.state;
@@ -42,7 +64,13 @@ export default class Home extends Component {
                 <View style={styles.listApi}>
                     {apisKey.length > 0 ? (
                         apisKey.map((key) => (
-                            <CardAsset id={key} key={key} apiItem={apis[key]} {...this.props} />
+                            <CardAsset
+                                id={key}
+                                key={key}
+                                apiItem={apis[key]}
+                                {...this.props}
+                                removeData={this.removeData}
+                            />
                         ))
                     ) : (
                         <Text>Daftar Kosong</Text>
