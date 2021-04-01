@@ -7,15 +7,27 @@ const CardAsset = ({ id, apiItem, navigation, removeData }) => {
     return (
         <TouchableOpacity
             style={styles.container}
-            onPress={() => navigation.navigate("DetailAsset", {id: id})}
+            onPress={() => navigation.navigate("DetailAsset", { id: id })}
         >
             <View>
                 <Text style={styles.vendor}>{apiItem.vendor}</Text>
                 <Text style={styles.aset}>Nilai Aset: x.xxx.xxx IDR</Text>
             </View>
             <View style={styles.icon}>
-                <FontAwesomeIcon icon={faEdit} color={"orange"} size={25} />
-                <FontAwesomeIcon icon={faTimes} color={"red"} size={25} onPress={() => removeData(id)} />
+                <FontAwesomeIcon
+                    icon={faEdit}
+                    color={"orange"}
+                    size={25}
+                    onPress={() =>
+                        navigation.navigate("EditAsset", { id: id })
+                    }
+                />
+                <FontAwesomeIcon
+                    icon={faTimes}
+                    color={"red"}
+                    size={25}
+                    onPress={() => removeData(id)}
+                />
             </View>
         </TouchableOpacity>
     );
