@@ -96,7 +96,7 @@ export default class HomeScreen extends Component {
                         </TouchableOpacity>
                     </View>
 
-                    <Text style={styles.title}>Daftar Aset</Text>
+                    <Text style={styles.title}>List Aset</Text>
                     <View style={styles.line} />
                 </View>
 

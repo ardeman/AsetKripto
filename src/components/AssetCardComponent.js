@@ -53,7 +53,6 @@ const styles = StyleSheet.create({
     vendor: {
         fontWeight: "bold",
         fontSize: 16,
-        textTransform: "capitalize",
     },
     aset: {
         fontSize: 12,

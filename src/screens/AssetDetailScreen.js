@@ -25,6 +25,10 @@ export default class AssetDetailScreen extends Component {
                 this.setState({
                     asset: assetItem,
                 });
+
+                this.props.navigation.setOptions({
+                    title: assetItem.vendor,
+                });
             });
     }
 
