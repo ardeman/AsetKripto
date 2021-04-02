@@ -1,28 +1,32 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import React, { Component } from "react";
-import { Text, StyleSheet, View, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
+import {
+    Text,
+    StyleSheet,
+    View,
+    TouchableOpacity,
+    Alert,
+    ActivityIndicator,
+} from "react-native";
 import { CardAsset } from "../components";
 import Firebase from "../config/Firebase";
 
-export default class Home extends Component {
+export default class HomeScreen extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            apis: {},
-            apisKey: [],
-            email: "",
+            assets: {},
+            assetsKey: [],
             displayName: "",
+            uid: null,
             loading: false,
         };
     }
 
     componentDidMount() {
         this.retrieveData();
-
-        const { email, displayName } = Firebase.auth().currentUser;
-        this.setState({ email, displayName });
     }
 
     signOutUser = () => {
@@ -30,17 +34,22 @@ export default class Home extends Component {
     };
 
     retrieveData = () => {
-        this.setState({ loading: true });
+        const { uid, displayName } = Firebase.auth().currentUser;
+        this.setState({
+            uid,
+            displayName,
+            loading: true,
+        });
 
         Firebase.database()
-            .ref("apis")
+            .ref(`users/${uid}/assets`)
             .once("value", (querySnapShot) => {
                 let data = querySnapShot.val() || {};
-                let apiItem = { ...data };
+                let assetItem = { ...data };
 
                 this.setState({
-                    apis: apiItem,
-                    apisKey: Object.keys(apiItem),
+                    assets: assetItem,
+                    assetsKey: Object.keys(assetItem),
                 });
             })
             .finally(() => {
@@ -58,7 +67,10 @@ export default class Home extends Component {
             {
                 text: "OK",
                 onPress: () => {
-                    Firebase.database().ref(`apis/${id}`).remove();
+                    Firebase.database()
+                        .ref(`users/${this.state.uid}/assets/${id}`)
+                        .remove();
+
                     this.retrieveData();
                     Alert.alert("Hapus", "Sukses menghapus data");
                 },
@@ -67,7 +79,7 @@ export default class Home extends Component {
     };
 
     render() {
-        const { apis, apisKey } = this.state;
+        const { assets, assetsKey } = this.state;
 
         return (
             <View style={styles.page}>
@@ -88,17 +100,15 @@ export default class Home extends Component {
                     <View style={styles.line} />
                 </View>
 
-                <View style={styles.listApi}>
-                    {this.state.loading && (
+                <View style={styles.listAsset}>
+                    {this.state.loading ? (
                         <ActivityIndicator size="large" color="gray" />
-                    )}
-
-                    {apisKey.length > 0 ? (
-                        apisKey.map((key) => (
+                    ) : assetsKey.length > 0 ? (
+                        assetsKey.map((key) => (
                             <CardAsset
                                 id={key}
                                 key={key}
-                                apiItem={apis[key]}
+                                assetItem={assets[key]}
                                 {...this.props}
                                 removeData={this.removeData}
                             />
@@ -143,7 +153,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginTop: 10,
     },
-    listApi: {
+    listAsset: {
         paddingHorizontal: 30,
         marginTop: 20,
     },

@@ -10,7 +10,7 @@ import {
 import { InputData } from "../components";
 import Firebase from "../config/Firebase";
 
-export default class EditAsset extends Component {
+export default class AssetAddScreen extends Component {
     constructor(props) {
         super(props);
 
@@ -20,22 +20,8 @@ export default class EditAsset extends Component {
             vendor: "",
             errorMessage: null,
             loading: false,
+            uid: null,
         };
-    }
-
-    componentDidMount() {
-        Firebase.database()
-            .ref(`apis/${this.props.route.params.id}`)
-            .once("value", (querySnapShot) => {
-                let data = querySnapShot.val() || {};
-                let apiItem = { ...data };
-
-                this.setState({
-                    key: apiItem.key,
-                    secret: apiItem.secret,
-                    vendor: apiItem.vendor,
-                });
-            });
     }
 
     onChangeText = (stateName, value) => {
@@ -49,19 +35,19 @@ export default class EditAsset extends Component {
         if (this.state.key && this.state.secret && this.state.vendor) {
             this.setState({ loading: true });
 
-            const apiRef = Firebase.database().ref(
-                `apis/${this.props.route.params.id}`
+            const assetRef = Firebase.database().ref(
+                `users/${this.state.uid}/assets`
             );
-            const api = {
+            const asset = {
                 key: this.state.key,
                 secret: this.state.secret,
                 vendor: this.state.vendor,
             };
 
-            apiRef
-                .update(api)
+            assetRef
+                .push(asset)
                 .then(() => {
-                    Alert.alert("Sukses", "Api Terupdate");
+                    Alert.alert("Sukses", "Asset Tersimpan");
                     this.props.navigation.replace("Home");
                 })
                 .finally(() => {
@@ -76,6 +62,11 @@ export default class EditAsset extends Component {
             });
         }
     };
+
+    componentDidMount() {
+        const { uid } = Firebase.auth().currentUser;
+        this.setState({ uid });
+    }
 
     render() {
         return (

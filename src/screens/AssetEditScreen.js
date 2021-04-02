@@ -10,7 +10,7 @@ import {
 import { InputData } from "../components";
 import Firebase from "../config/Firebase";
 
-export default class AddAsset extends Component {
+export default class AssetEditScreen extends Component {
     constructor(props) {
         super(props);
 
@@ -20,7 +20,26 @@ export default class AddAsset extends Component {
             vendor: "",
             errorMessage: null,
             loading: false,
+            uid: null,
         };
+    }
+
+    componentDidMount() {
+        const { uid } = Firebase.auth().currentUser;
+        this.setState({ uid });
+
+        Firebase.database()
+            .ref(`users/${uid}/assets/${this.props.route.params.id}`)
+            .once("value", (querySnapShot) => {
+                let data = querySnapShot.val() || {};
+                let assetItem = { ...data };
+
+                this.setState({
+                    key: assetItem.key,
+                    secret: assetItem.secret,
+                    vendor: assetItem.vendor,
+                });
+            });
     }
 
     onChangeText = (stateName, value) => {
@@ -34,17 +53,19 @@ export default class AddAsset extends Component {
         if (this.state.key && this.state.secret && this.state.vendor) {
             this.setState({ loading: true });
 
-            const apiRef = Firebase.database().ref("apis");
-            const api = {
+            const assetRef = Firebase.database().ref(
+                `users/${this.state.uid}/assets/${this.props.route.params.id}`
+            );
+            const asset = {
                 key: this.state.key,
                 secret: this.state.secret,
                 vendor: this.state.vendor,
             };
 
-            apiRef
-                .push(api)
+            assetRef
+                .update(asset)
                 .then(() => {
-                    Alert.alert("Sukses", "Api Tersimpan");
+                    Alert.alert("Sukses", "Asset Terupdate");
                     this.props.navigation.replace("Home");
                 })
                 .finally(() => {

@@ -2,30 +2,34 @@ import React, { Component } from "react";
 import { Text, StyleSheet, View } from "react-native";
 import Firebase from "../config/Firebase";
 
-export default class DetailAsset extends Component {
+export default class AssetDetailScreen extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            api: {},
+            asset: {},
+            uid: null,
         };
     }
 
     componentDidMount() {
+        const { uid } = Firebase.auth().currentUser;
+        this.setState({ uid });
+
         Firebase.database()
-            .ref(`apis/${this.props.route.params.id}`)
+            .ref(`users/${uid}/assets/${this.props.route.params.id}`)
             .once("value", (querySnapShot) => {
                 let data = querySnapShot.val() || {};
-                let apiItem = { ...data };
+                let assetItem = { ...data };
 
                 this.setState({
-                    api: apiItem,
+                    asset: assetItem,
                 });
             });
     }
 
     render() {
-        const { api } = this.state;
+        const { asset } = this.state;
         return (
             <View style={styles.pages}>
                 <Text>Nilai Aset : </Text>
