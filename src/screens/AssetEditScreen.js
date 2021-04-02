@@ -4,10 +4,9 @@ import {
     StyleSheet,
     View,
     TouchableOpacity,
-    Alert,
     ActivityIndicator,
 } from "react-native";
-import { InputTextComponent } from "../components";
+import { InputTextComponent, AlertComponent } from "../components";
 import Firebase from "../config/Firebase";
 
 export default class AssetEditScreen extends Component {
@@ -65,7 +64,7 @@ export default class AssetEditScreen extends Component {
             assetRef
                 .update(asset)
                 .then(() => {
-                    Alert.alert("Sukses", "Asset Terupdate");
+                    AlertComponent("Sukses", "Asset Terupdate");
                     this.props.navigation.replace("Home");
                 })
                 .finally(() => {

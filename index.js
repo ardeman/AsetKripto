@@ -2,8 +2,10 @@ import { registerRootComponent } from "expo";
 
 import App from "./src/App";
 
-import { LogBox } from 'react-native';
+import { LogBox, Platform } from "react-native";
 
-LogBox.ignoreLogs(['Setting a timer']);
+if (Platform.OS !== "web") {
+    LogBox.ignoreLogs(["Setting a timer"]);
+}
 
 registerRootComponent(App);

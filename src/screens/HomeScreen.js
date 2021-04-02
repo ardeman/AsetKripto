@@ -6,10 +6,9 @@ import {
     StyleSheet,
     View,
     TouchableOpacity,
-    Alert,
     ActivityIndicator,
 } from "react-native";
-import { AssetCardComponent } from "../components";
+import { AssetCardComponent, AlertComponent } from "../components";
 import Firebase from "../config/Firebase";
 
 export default class HomeScreen extends Component {
@@ -58,7 +57,7 @@ export default class HomeScreen extends Component {
     };
 
     removeData = (id) => {
-        Alert.alert("Info", "Anda yakin akan menghapus aset ini?", [
+        AlertComponent("Info", "Anda yakin akan menghapus aset ini?", [
             {
                 text: "Cancel",
                 onPress: () => console.log("Cancel Pressed"),
@@ -72,7 +71,7 @@ export default class HomeScreen extends Component {
                         .remove();
 
                     this.retrieveData();
-                    Alert.alert("Hapus", "Sukses menghapus data");
+                    AlertComponent("Hapus", "Sukses menghapus data");
                 },
             },
         ]);
