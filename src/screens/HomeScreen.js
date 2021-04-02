@@ -7,6 +7,8 @@ import {
     View,
     TouchableOpacity,
     ActivityIndicator,
+    SafeAreaView,
+    ScrollView,
 } from "react-native";
 import { AssetCardComponent, AlertComponent } from "../components";
 import Firebase from "../config/Firebase";
@@ -81,16 +83,11 @@ export default class HomeScreen extends Component {
         const { assets, assetsKey } = this.state;
 
         return (
-            <View style={styles.page}>
+            <SafeAreaView style={styles.page}>
                 <View style={styles.header}>
                     <View style={styles.authUser}>
-                        <Text style={styles.currentUser}>
-                            Hi, {this.state.displayName}.
-                        </Text>
-                        <TouchableOpacity
-                            style={styles.logout}
-                            onPress={this.signOutUser}
-                        >
+                        <Text>Hi, {this.state.displayName}.</Text>
+                        <TouchableOpacity onPress={this.signOutUser}>
                             <Text style={styles.textLogout}>Logout</Text>
                         </TouchableOpacity>
                     </View>
@@ -99,7 +96,7 @@ export default class HomeScreen extends Component {
                     <View style={styles.line} />
                 </View>
 
-                <View style={styles.listAsset}>
+                <ScrollView style={styles.page}>
                     {this.state.loading ? (
                         <ActivityIndicator size="large" color="gray" />
                     ) : assetsKey.length > 0 ? (
@@ -115,7 +112,7 @@ export default class HomeScreen extends Component {
                     ) : (
                         <Text>Tidak tersedia</Text>
                     )}
-                </View>
+                </ScrollView>
 
                 <View style={styles.wrapperButton}>
                     <TouchableOpacity
@@ -131,7 +128,7 @@ export default class HomeScreen extends Component {
                         />
                     </TouchableOpacity>
                 </View>
-            </View>
+            </SafeAreaView>
         );
     }
 }
@@ -151,10 +148,6 @@ const styles = StyleSheet.create({
     line: {
         borderWidth: 1,
         marginTop: 10,
-    },
-    listAsset: {
-        paddingHorizontal: 30,
-        marginTop: 20,
     },
     wrapperButton: {
         flex: 1,
@@ -181,8 +174,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
     },
-    currentUser: {},
-    logout: {},
     textLogout: {
         textTransform: "uppercase",
     },

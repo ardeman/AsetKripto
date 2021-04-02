@@ -1,45 +1,62 @@
-import { faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import * as GestureHandler from "react-native-gesture-handler";
+
+const { Swipeable } = GestureHandler;
+
+const LeftActions = (id, navigation, removeData) => {
+    return (
+        <View style={styles.swipeOptions}>
+            <View style={styles.flex}>
+                <TouchableOpacity
+                    style={styles.swipeButton}
+                    onPress={() => removeData(id)}
+                >
+                    <Text style={styles.textDelete}>Hapus</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.flex}>
+                <TouchableOpacity
+                    style={styles.swipeButton}
+                    onPress={() => navigation.navigate("AssetEdit", { id: id })}
+                >
+                    <Text style={styles.textEdit}>Edit</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+    );
+};
 
 const AssetCardComponent = ({ id, assetItem, navigation, removeData }) => {
     return (
-        <TouchableOpacity
-            style={styles.container}
-            onPress={() => navigation.navigate("AssetDetail", { id: id })}
+        <Swipeable
+            renderLeftActions={() => LeftActions(id, navigation, removeData)}
         >
-            <View>
-                <Text style={styles.vendor}>{assetItem.vendor}</Text>
-                <Text style={styles.aset}>Nilai Aset: x.xxx.xxx IDR</Text>
-            </View>
-            <View style={styles.icon}>
-                <FontAwesomeIcon
-                    icon={faEdit}
-                    color={"orange"}
-                    size={25}
-                    onPress={() => navigation.navigate("AssetEdit", { id: id })}
-                />
-                <FontAwesomeIcon
-                    icon={faTimes}
-                    color={"red"}
-                    size={25}
-                    onPress={() => removeData(id)}
-                />
-            </View>
-        </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.container}
+                onPress={() => navigation.navigate("AssetDetail", { id: id })}
+            >
+                <View>
+                    <Text style={styles.vendor}>{assetItem.vendor}</Text>
+                    <Text style={styles.aset}>Nilai Aset: x.xxx.xxx IDR</Text>
+                </View>
+            </TouchableOpacity>
+        </Swipeable>
     );
 };
 
 export default AssetCardComponent;
 
 const styles = StyleSheet.create({
+    flex: {
+        flex: 1,
+    },
     container: {
         flexDirection: "row",
         padding: 15,
         backgroundColor: "white",
         borderRadius: 5,
-        marginBottom: 20,
+        marginVertical: 10,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -49,6 +66,7 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
 
         elevation: 5,
+        marginHorizontal: 30,
     },
     vendor: {
         fontWeight: "bold",
@@ -58,10 +76,26 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: "gray",
     },
-    icon: {
+    swipeOptions: {
+        flex: 0.5,
         flexDirection: "row",
-        flex: 1,
-        justifyContent: "flex-end",
+        justifyContent: "space-around",
         alignItems: "center",
+        marginVertical: 20,
+        marginHorizontal: 40,
+    },
+    swipeButton: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    textDelete: {
+        textTransform: "uppercase",
+        color: "red",
+    },
+    textEdit: {
+        textTransform: "uppercase",
+        color: "orange",
     },
 });
