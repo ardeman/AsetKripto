@@ -7,7 +7,7 @@ import {
     Alert,
     ActivityIndicator,
 } from "react-native";
-import { InputData } from "../components";
+import { InputTextComponent } from "../components";
 import Firebase from "../config/Firebase";
 
 export default class AssetAddScreen extends Component {
@@ -83,21 +83,21 @@ export default class AssetAddScreen extends Component {
                     )}
                 </View>
 
-                <InputData
+                <InputTextComponent
                     label="API Key"
                     placeholder="Masukkan API Key"
                     onChangeText={this.onChangeText}
                     value={this.state.key}
                     stateName="key"
                 />
-                <InputData
+                <InputTextComponent
                     label="API Secret"
                     placeholder="Masukkan API Secret"
                     onChangeText={this.onChangeText}
                     value={this.state.secret}
                     stateName="secret"
                 />
-                <InputData
+                <InputTextComponent
                     label="Vendor"
                     placeholder="Masukkan Vendor"
                     onChangeText={this.onChangeText}

@@ -9,7 +9,7 @@ import {
     Alert,
     ActivityIndicator,
 } from "react-native";
-import { CardAsset } from "../components";
+import { AssetCardComponent } from "../components";
 import Firebase from "../config/Firebase";
 
 export default class HomeScreen extends Component {
@@ -105,7 +105,7 @@ export default class HomeScreen extends Component {
                         <ActivityIndicator size="large" color="gray" />
                     ) : assetsKey.length > 0 ? (
                         assetsKey.map((key) => (
-                            <CardAsset
+                            <AssetCardComponent
                                 id={key}
                                 key={key}
                                 assetItem={assets[key]}
@@ -122,7 +122,7 @@ export default class HomeScreen extends Component {
                     <TouchableOpacity
                         style={styles.btnAdd}
                         onPress={() =>
-                            this.props.navigation.navigate("AddAsset")
+                            this.props.navigation.navigate("AssetAdd")
                         }
                     >
                         <FontAwesomeIcon

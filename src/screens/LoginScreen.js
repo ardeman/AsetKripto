@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     ActivityIndicator,
 } from "react-native";
-import { InputData } from "../components";
+import { InputTextComponent } from "../components";
 import Firebase from "../config/Firebase";
 
 export default class LoginScreen extends Component {
@@ -60,7 +60,7 @@ export default class LoginScreen extends Component {
 
                 <View style={styles.form}>
                     <View>
-                        <InputData
+                        <InputTextComponent
                             label="Email"
                             placeholder="Masukkan Alamat Email"
                             onChangeText={this.onChangeText}
@@ -69,7 +69,7 @@ export default class LoginScreen extends Component {
                             autoCapitalize="none"
                         />
 
-                        <InputData
+                        <InputTextComponent
                             label="Sandi"
                             placeholder="Masukkan Kata Sandi"
                             onChangeText={this.onChangeText}

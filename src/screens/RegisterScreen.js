@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     ActivityIndicator,
 } from "react-native";
-import { InputData } from "../components";
+import { InputTextComponent } from "../components";
 import Firebase from "../config/Firebase";
 
 export default class RegisterScreen extends Component {
@@ -70,7 +70,7 @@ export default class RegisterScreen extends Component {
 
                 <View style={styles.form}>
                     <View>
-                        <InputData
+                        <InputTextComponent
                             label="Nama"
                             placeholder="Masukkan Nama Lengkap"
                             onChangeText={this.onChangeText}
@@ -78,7 +78,7 @@ export default class RegisterScreen extends Component {
                             stateName="name"
                         />
 
-                        <InputData
+                        <InputTextComponent
                             label="Email"
                             placeholder="Masukkan Alamat Email"
                             onChangeText={this.onChangeText}
@@ -87,7 +87,7 @@ export default class RegisterScreen extends Component {
                             autoCapitalize="none"
                         />
 
-                        <InputData
+                        <InputTextComponent
                             label="Sandi"
                             placeholder="Masukkan Kata Sandi"
                             onChangeText={this.onChangeText}

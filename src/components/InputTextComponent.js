@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, TextInput } from "react-native";
 
-const InputData = ({
+const InputTextComponent = ({
     label,
     placeholder,
     keyboardType,
@@ -27,7 +27,7 @@ const InputData = ({
     );
 };
 
-export default InputData;
+export default InputTextComponent;
 
 const styles = StyleSheet.create({
     label: {

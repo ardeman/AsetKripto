@@ -1,4 +1,4 @@
-import InputData from "./InputData";
-import CardAsset from "./CardAsset";
+import InputTextComponent from "./InputTextComponent";
+import AssetCardComponent from "./AssetCardComponent";
 
-export { InputData, CardAsset };
+export { InputTextComponent, AssetCardComponent };
