@@ -13,6 +13,8 @@ import { InputTextComponent, AlertComponent } from "../components";
 import Firebase from "../config/Firebase";
 
 export default class AssetAddScreen extends Component {
+    _db = Firebase.firestore();
+
     constructor(props) {
         super(props);
 
@@ -49,17 +51,17 @@ export default class AssetAddScreen extends Component {
         if (this.state.key && this.state.secret && this.state.vendor) {
             this.setState({ loading: true });
 
-            const assetRef = Firebase.database().ref(
-                `users/${this.state.uid}/assets`
-            );
             const asset = {
                 key: this.state.key,
                 secret: this.state.secret,
                 vendor: this.state.vendor,
             };
 
-            assetRef
-                .push(asset)
+            this._db
+                .collection("users")
+                .doc(this.state.uid)
+                .collection("assets")
+                .add(asset)
                 .then(() => {
                     AlertComponent("Sukses", "Asset Tersimpan");
                     this.props.navigation.replace("Home");
@@ -69,6 +71,7 @@ export default class AssetAddScreen extends Component {
                 })
                 .catch((error) => {
                     this.setState({ errorMessage: error.message });
+                    console.log("Error adding document: ", error);
                 });
         } else {
             this.setState({

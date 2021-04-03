@@ -14,12 +14,13 @@ import { AssetCardComponent, AlertComponent } from "../components";
 import Firebase from "../config/Firebase";
 
 export default class HomeScreen extends Component {
+    _db = Firebase.firestore();
+
     constructor(props) {
         super(props);
 
         this.state = {
-            assets: {},
-            assetsKey: [],
+            data: [],
             displayName: "",
             uid: null,
             loading: false,
@@ -42,16 +43,23 @@ export default class HomeScreen extends Component {
             loading: true,
         });
 
-        Firebase.database()
-            .ref(`users/${uid}/assets`)
-            .once("value", (querySnapShot) => {
-                let data = querySnapShot.val() || {};
-                let assetItem = { ...data };
+        this._db
+            .collection("users")
+            .doc(uid)
+            .collection("assets")
+            .get()
+            .then((querySnapshot) => {
+                let snap = querySnapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }));
 
                 this.setState({
-                    assets: assetItem,
-                    assetsKey: Object.keys(assetItem),
+                    data: snap,
                 });
+            })
+            .catch((error) => {
+                console.log("Error getting documents: ", error);
             })
             .finally(() => {
                 this.setState({ loading: false });
@@ -68,25 +76,32 @@ export default class HomeScreen extends Component {
             {
                 text: "OK",
                 onPress: () => {
-                    Firebase.database()
-                        .ref(`users/${this.state.uid}/assets/${id}`)
-                        .remove();
-
-                    this.retrieveData();
-                    AlertComponent("Hapus", "Sukses menghapus data");
+                    this._db
+                        .collection("users")
+                        .doc(this.state.uid)
+                        .collection("assets")
+                        .doc(id)
+                        .delete()
+                        .then(() => {
+                            this.retrieveData();
+                            AlertComponent("Hapus", "Sukses menghapus data");
+                        })
+                        .catch((error) => {
+                            console.error("Error removing document: ", error);
+                        });
                 },
             },
         ]);
     };
 
     render() {
-        const { assets, assetsKey } = this.state;
+        const { displayName, loading, data } = this.state;
 
         return (
             <SafeAreaView style={styles.page}>
                 <View style={styles.header}>
                     <View style={styles.authUser}>
-                        <Text>Hi, {this.state.displayName}.</Text>
+                        <Text>Hi, {displayName}.</Text>
                         <TouchableOpacity onPress={this.signOutUser}>
                             <Text style={styles.textLogout}>Logout</Text>
                         </TouchableOpacity>
@@ -97,14 +112,14 @@ export default class HomeScreen extends Component {
                 </View>
 
                 <ScrollView style={styles.page}>
-                    {this.state.loading ? (
+                    {loading ? (
                         <ActivityIndicator size="large" color="gray" />
-                    ) : assetsKey.length > 0 ? (
-                        assetsKey.map((key) => (
+                    ) : data.length > 0 ? (
+                        data.map((value, index) => (
                             <AssetCardComponent
-                                id={key}
-                                key={key}
-                                assetItem={assets[key]}
+                                id={value.id}
+                                key={index}
+                                assetItem={value}
                                 {...this.props}
                                 removeData={this.removeData}
                             />

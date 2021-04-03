@@ -3,6 +3,8 @@ import { Text, StyleSheet, View } from "react-native";
 import Firebase from "../config/Firebase";
 
 export default class AssetDetailScreen extends Component {
+    _db = Firebase.firestore();
+
     constructor(props) {
         super(props);
 
@@ -16,19 +18,26 @@ export default class AssetDetailScreen extends Component {
         const { uid } = Firebase.auth().currentUser;
         this.setState({ uid });
 
-        Firebase.database()
-            .ref(`users/${uid}/assets/${this.props.route.params.id}`)
-            .once("value", (querySnapShot) => {
-                let data = querySnapShot.val() || {};
+        this._db
+            .collection("users")
+            .doc(uid)
+            .collection("assets")
+            .doc(this.props.route.params.id)
+            .get()
+            .then((doc) => {
+                let data = doc.data() || {};
                 let assetItem = { ...data };
 
                 this.setState({
-                    asset: assetItem,
+                    asset: doc.assetItem,
                 });
 
                 this.props.navigation.setOptions({
                     title: assetItem.vendor,
                 });
+            })
+            .catch((error) => {
+                console.log("Error getting document:", error);
             });
     }
 

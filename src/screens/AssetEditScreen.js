@@ -10,6 +10,8 @@ import { InputTextComponent, AlertComponent } from "../components";
 import Firebase from "../config/Firebase";
 
 export default class AssetEditScreen extends Component {
+    _db = Firebase.firestore();
+
     constructor(props) {
         super(props);
 
@@ -27,10 +29,14 @@ export default class AssetEditScreen extends Component {
         const { uid } = Firebase.auth().currentUser;
         this.setState({ uid });
 
-        Firebase.database()
-            .ref(`users/${uid}/assets/${this.props.route.params.id}`)
-            .once("value", (querySnapShot) => {
-                let data = querySnapShot.val() || {};
+        this._db
+            .collection("users")
+            .doc(uid)
+            .collection("assets")
+            .doc(this.props.route.params.id)
+            .get()
+            .then((doc) => {
+                let data = doc.data() || {};
                 let assetItem = { ...data };
 
                 this.setState({
@@ -52,26 +58,28 @@ export default class AssetEditScreen extends Component {
         if (this.state.key && this.state.secret && this.state.vendor) {
             this.setState({ loading: true });
 
-            const assetRef = Firebase.database().ref(
-                `users/${this.state.uid}/assets/${this.props.route.params.id}`
-            );
             const asset = {
                 key: this.state.key,
                 secret: this.state.secret,
                 vendor: this.state.vendor,
             };
 
-            assetRef
-                .update(asset)
+            this._db
+                .collection("users")
+                .doc(this.state.uid)
+                .collection("assets")
+                .doc(this.props.route.params.id)
+                .set(asset, { merge: true })
                 .then(() => {
                     AlertComponent("Sukses", "Asset Terupdate");
                     this.props.navigation.replace("Home");
                 })
-                .finally(() => {
-                    this.setState({ loading: false });
-                })
                 .catch((error) => {
                     this.setState({ errorMessage: error.message });
+                    console.error("Error writing document: ", error);
+                })
+                .finally(() => {
+                    this.setState({ loading: false });
                 });
         } else {
             this.setState({
