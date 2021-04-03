@@ -49,6 +49,7 @@ Terima kasih kepada
 - [Wahidev Academy](https://www.youtube.com/channel/UCXsAaDHG8E4PN3rIHGaZ4XQ)
 - [DesignIntoCode](https://www.youtube.com/channel/UCPZlE8KsMkumnjEMOcJDxuQ)
 - [React Native School](https://www.youtube.com/channel/UCEv1DI7Iftd2sWE8gcGG9rg)
+- [Adrian Twarog](https://www.youtube.com/channel/UCvM5YYWwfLwpcQgbRr68JLQ)
 
 ## Lisensi
 

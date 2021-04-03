@@ -69,56 +69,52 @@ export default class RegisterScreen extends Component {
                 </View>
 
                 <View style={styles.form}>
-                    <View>
-                        <InputTextComponent
-                            label="Nama"
-                            placeholder="Masukkan Nama Lengkap"
-                            onChangeText={this.onChangeText}
-                            value={this.state.name}
-                            stateName="name"
-                        />
+                    <InputTextComponent
+                        label="Nama"
+                        placeholder="Masukkan Nama Lengkap"
+                        onChangeText={this.onChangeText}
+                        value={this.state.name}
+                        stateName="name"
+                    />
 
-                        <InputTextComponent
-                            label="Email"
-                            placeholder="Masukkan Alamat Email"
-                            onChangeText={this.onChangeText}
-                            value={this.state.email}
-                            stateName="email"
-                            autoCapitalize="none"
-                        />
+                    <InputTextComponent
+                        label="Email"
+                        placeholder="Masukkan Alamat Email"
+                        onChangeText={this.onChangeText}
+                        value={this.state.email}
+                        stateName="email"
+                        autoCapitalize="none"
+                    />
 
-                        <InputTextComponent
-                            label="Sandi"
-                            placeholder="Masukkan Kata Sandi"
-                            onChangeText={this.onChangeText}
-                            value={this.state.password}
-                            stateName="password"
-                            autoCapitalize="none"
-                            secureTextEntry={true}
-                        />
+                    <InputTextComponent
+                        label="Sandi"
+                        placeholder="Masukkan Kata Sandi"
+                        onChangeText={this.onChangeText}
+                        value={this.state.password}
+                        stateName="password"
+                        autoCapitalize="none"
+                        secureTextEntry={true}
+                    />
 
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={this.handleRegister}
-                        >
-                            <Text style={styles.buttonText}>Daftar</Text>
-                        </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={this.handleRegister}
+                    >
+                        <Text style={styles.buttonText}>Daftar</Text>
+                    </TouchableOpacity>
 
-                        <TouchableOpacity
-                            style={styles.toRegister}
-                            onPress={() =>
-                                this.props.navigation.navigate("Login")
-                            }
-                        >
-                            <Text style={styles.registerQuestion}>
-                                Sudah terdaftar?{" "}
-                                <Text style={styles.registerLink}>
-                                    Login di sini
-                                </Text>
-                                .
+                    <TouchableOpacity
+                        style={styles.toRegister}
+                        onPress={() => this.props.navigation.navigate("Login")}
+                    >
+                        <Text style={styles.registerQuestion}>
+                            Sudah terdaftar?{" "}
+                            <Text style={styles.registerLink}>
+                                Login di sini
                             </Text>
-                        </TouchableOpacity>
-                    </View>
+                            .
+                        </Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         );

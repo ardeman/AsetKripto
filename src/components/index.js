@@ -1,5 +1,9 @@
 import InputTextComponent from "./InputTextComponent";
 import AssetCardComponent from "./AssetCardComponent";
-import AlertComponent from './AlertComponent';
+import AlertComponent from "./AlertComponent";
 
-export { InputTextComponent, AssetCardComponent, AlertComponent };
+export {
+    InputTextComponent,
+    AssetCardComponent,
+    AlertComponent,
+};

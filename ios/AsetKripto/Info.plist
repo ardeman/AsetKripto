@@ -63,5 +63,17 @@
     <true/>
     <key>CFBundleDisplayName</key>
     <string>AsetKripto</string>
+
+    <key>NSCameraUsageDescription</key>
+    <string>Dibutuhkan akses ke kamera untuk melakukan scan QRCode langsung dari kamera</string>
+
+    <!-- Include this only if you are planning to use the camera roll -->
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Dibutuhkan akses ke librari foto untuk melakukan scan dari librari foto</string>
+
+    <!-- Include this only if you are planning to use the microphone for video recording -->
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Dibutuhkan akses ke mic</string>
+
   </dict>
 </plist>

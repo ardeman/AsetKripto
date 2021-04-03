@@ -77,12 +77,12 @@ const styles = StyleSheet.create({
         color: "gray",
     },
     swipeOptions: {
-        flex: 0.5,
+        flex: 0.4,
         flexDirection: "row",
-        justifyContent: "space-around",
+        justifyContent: "space-between",
         alignItems: "center",
         marginVertical: 20,
-        marginHorizontal: 40,
+        marginLeft: 30,
     },
     swipeButton: {
         flex: 1,

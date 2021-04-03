@@ -59,48 +59,46 @@ export default class LoginScreen extends Component {
                 </View>
 
                 <View style={styles.form}>
-                    <View>
-                        <InputTextComponent
-                            label="Email"
-                            placeholder="Masukkan Alamat Email"
-                            onChangeText={this.onChangeText}
-                            value={this.state.email}
-                            stateName="email"
-                            autoCapitalize="none"
-                        />
+                    <InputTextComponent
+                        label="Email"
+                        placeholder="Masukkan Alamat Email"
+                        onChangeText={this.onChangeText}
+                        value={this.state.email}
+                        stateName="email"
+                        autoCapitalize="none"
+                    />
 
-                        <InputTextComponent
-                            label="Sandi"
-                            placeholder="Masukkan Kata Sandi"
-                            onChangeText={this.onChangeText}
-                            value={this.state.password}
-                            stateName="password"
-                            autoCapitalize="none"
-                            secureTextEntry={true}
-                        />
+                    <InputTextComponent
+                        label="Sandi"
+                        placeholder="Masukkan Kata Sandi"
+                        onChangeText={this.onChangeText}
+                        value={this.state.password}
+                        stateName="password"
+                        autoCapitalize="none"
+                        secureTextEntry={true}
+                    />
 
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={this.handleLogin}
-                        >
-                            <Text style={styles.buttonText}>Login</Text>
-                        </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={this.handleLogin}
+                    >
+                        <Text style={styles.buttonText}>Login</Text>
+                    </TouchableOpacity>
 
-                        <TouchableOpacity
-                            style={styles.toRegister}
-                            onPress={() =>
-                                this.props.navigation.navigate("Register")
-                            }
-                        >
-                            <Text style={styles.registerQuestion}>
-                                Belum memiliki akun?{" "}
-                                <Text style={styles.registerLink}>
-                                    Daftar di sini
-                                </Text>
-                                .
+                    <TouchableOpacity
+                        style={styles.toRegister}
+                        onPress={() =>
+                            this.props.navigation.navigate("Register")
+                        }
+                    >
+                        <Text style={styles.registerQuestion}>
+                            Belum memiliki akun?{" "}
+                            <Text style={styles.registerLink}>
+                                Daftar di sini
                             </Text>
-                        </TouchableOpacity>
-                    </View>
+                            .
+                        </Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         );
